@@ -40,7 +40,7 @@ class UDPclient:
         download_request = f"DOWNLOAD {filename}"
         response = self.send_request_with_retry(download_request)
         if not response or not response.startswith("OK"):
-            print(f"over")
+            print(f"fail to download")
             return False     
         parts = response.split()
         file_size = int(parts[3])

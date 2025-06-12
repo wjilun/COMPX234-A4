@@ -68,7 +68,7 @@ if __name__ == "__main__":
     port = 50000
     try:
         server_socket.bind((host, port))
-        print("connecting to {host}:{port}")
+        print(f"connecting to {host}:{port}")
         while True:
             try:
                 server_socket.settimeout(15)
