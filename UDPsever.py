@@ -58,3 +58,6 @@ def handle_download(data,client_address,server_socket):
         data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         data_socket.bind(('localhost', data_port))
         print(f"sever has connect to {data_port}, handle {client_address} request")
+        threading.Thread(target=handle_file,args=(data_socket, filename, client_address),daemon=True).start()      
+    except Exception as e:
+        print("error when handle downlad: {e} ")
