@@ -17,4 +17,9 @@ class UDPclient:
         except Exception as e:
             print(f"error when calculate: {e}")
             return None
-        return hash_md5.hexdigest()     
+        return hash_md5.hexdigest()
+
+    def send_request_with_retry(self, message, target_address=None, max_retries=5):
+        if target_address is None:
+            target_address = self.server_address
+        
