@@ -66,3 +66,7 @@ if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     host = 'localhost'
     port = 50000
+    while True:
+            try:
+                server_socket.settimeout(15)
+                data, client_address = server_socket.recvfrom(1024)
