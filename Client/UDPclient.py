@@ -58,3 +58,19 @@ class UDPclient:
                 print(f"get block {start}-{end} failed,respose: {response if response else 'no response'}")
                 close_request = f"FILE {filename} CLOSE"
                 self.send_request_with_retry(close_request, data_address)
+            try:
+                parts= response.split("DATA ", 1)
+                data_part=parts[1]
+                decoded_data = base64.b64decode(data_part)
+                if start <= end and len(decoded_data) == (end - start + 1):
+                    received_data[start:start+len(decoded_data)] = decoded_data
+                    progress = (start / file_size) * 100
+                    print(f"Accept {start}-{end},progress: {progress:.1f}%")
+                else:
+                    print(f"block {start}-{end} Duplication or loss, retransmission")
+            except Exception as e:
+                print(f" error parsing the response: {e}")
+                close_request = f"FILE {filename} CLOSE"
+                self.send_request_with_retry(close_request, data_address)   
+            
+
