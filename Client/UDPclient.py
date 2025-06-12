@@ -40,7 +40,7 @@ class UDPclient:
         download_request = f"DOWNLOAD {filename}"
         response = self.send_request_with_retry(download_request)
         if not response or not response.startswith("OK"):
-            print(f"fail to download")
+            print(f"over")
             return False     
         parts = response.split()
         file_size = int(parts[3])
@@ -80,7 +80,7 @@ class UDPclient:
                close_request = f"FILE {filename} CLOSE"
                self.send_request_with_retry(close_request, data_address) 
         try:
-            with open(filename, 'wb') as f:
+            with open("filename", 'wb') as f:
                 f.write(received_data)
             print(f"{filename} finish download")
             close_request = f"FILE {filename} CLOSE"
