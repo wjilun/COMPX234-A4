@@ -47,3 +47,14 @@ class UDPclient:
         data_port = int(parts[5])
         server_md5 = parts[7]
         print(f"file {filename} size: {file_size} byte, data_port: {data_port}")
+        data_address = (self.server_address[0], data_port)
+        block_size = 1000
+        received_data = bytearray(file_size)
+        for start in range(0, file_size, block_size):
+            end = min(start + block_size - 1, file_size - 1)
+            block_request = f"FILE {filename} GET START {start} END {end}"
+            response = self.send_request_with_retry(block_request, target_address=data_address)
+            if not response or not response.startswith(f"FILE {filename} OK"):
+                print(f"get block {start}-{end} failed,respose: {response if response else 'no response'}")
+                close_request = f"FILE {filename} CLOSE"
+                self.send_request_with_retry(close_request, data_address)
