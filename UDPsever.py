@@ -74,7 +74,7 @@ if __name__ == "__main__":
                 server_socket.settimeout(15)
                 data, client_address = server_socket.recvfrom(1024)
                 if data.startswith(b"DOWNLOAD"):
-                    threading.Thread(target=handle_download,args=(data, client_address),daemon=True).start()
+                    threading.Thread(target=handle_download,args=(data, client_address,server_socket),daemon=True).start()
                 else:
                     print(f"this is not download request: {data.decode('utf-8')}")
                     break
