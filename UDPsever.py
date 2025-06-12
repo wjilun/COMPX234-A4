@@ -11,6 +11,13 @@ def handle_data_request(data_socket,filename,client_adress):
             data,address=data_socket.recvfrom(1024)
             request = data.decode('utf-8')
             parts = request.split()
+            if parts[2]=="GET":
+                s=int(parts[4])
+                e=int(parts[6])
+                try:
+                    with open(filename, 'rb') as f:
+                        f.seek(s)
+                        content= f.read(e - s + 1)
 
 
     
