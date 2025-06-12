@@ -80,7 +80,7 @@ class UDPclient:
                close_request = f"FILE {filename} CLOSE"
                self.send_request_with_retry(close_request, data_address) 
         try:
-            with open("filename", 'wb') as f:
+            with open(filename, 'wb') as f:
                 f.write(received_data)
             print(f"{filename} finish download")
             close_request = f"FILE {filename} CLOSE"
