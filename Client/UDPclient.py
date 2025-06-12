@@ -35,3 +35,15 @@ class UDPclient:
             except Exception as e:
                 print(f"error when send request: {e}")
         return None
+    
+    def download_file(self, filename):
+        download_request = f"DOWNLOAD {filename}"
+        response = self.send_request_with_retry(download_request)
+        if not response or not response.startswith("OK"):
+            print(f"fail to download")
+            return False     
+        parts = response.split()
+        file_size = int(parts[3])
+        data_port = int(parts[5])
+        server_md5 = parts[7]
+        print(f"file {filename} size: {file_size} byte, data_port: {data_port}")
