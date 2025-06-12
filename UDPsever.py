@@ -55,4 +55,6 @@ def handle_download(data,client_address,server_socket):
         response = f"OK {filename} SIZE {file_size} PORT {data_port} MD5 {file_md5.hexdigest()}"
         server_socket.sendto(response.encode('utf-8'), client_address)
         print(f"client_address {client_address} ,file {filename} size {file_size} byte, data_port {data_port}, MD5{file_md5.hexdigest()}")
-
+        data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        data_socket.bind(('localhost', data_port))
+        print(f"sever has connect to {data_port}, handle {client_address} request")
