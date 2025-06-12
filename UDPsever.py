@@ -45,5 +45,14 @@ def handle_download(data,client_address,server_socket):
             error_response = f"ERR {filename} NOT_FOUND"
             server_socket.sendto(error_response.encode('utf-8'), client_address)
             return
-
+        with open(filename, 'rb') as f:
+            file_size = len(f.read())
+        data_port = random.randint(50000, 51000)
+        file_md5=hashlib.md5()
+        with open(filename, 'rb') as f:
+            while content := f.read(4096):
+                file_md5.update(content)
+        response = f"OK {filename} SIZE {file_size} PORT {data_port} MD5 {file_md5.hexdigest()}"
+        server_socket.sendto(response.encode('utf-8'), client_address)
+        print(f"client_address {client_address} ,file {filename} size {file_size} byte, data_port {data_port}, MD5{file_md5.hexdigest()}")
 
