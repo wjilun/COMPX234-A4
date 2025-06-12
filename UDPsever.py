@@ -30,7 +30,11 @@ def handle_file(data_socket,filename,client_adress):
                 print("")
                 data_socket.close()
                 return
-            
+    except Exception as e:
+        print(f"error when handle file: {e}")
+        print("")
+        data_socket.close()
+        return        
 
 
 
