@@ -66,7 +66,27 @@ if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     host = 'localhost'
     port = 50000
-    while True:
+    try:
+        server_socket.bind((host, port))
+        print("connecting to {host}:{port}")
+        while True:
             try:
                 server_socket.settimeout(15)
                 data, client_address = server_socket.recvfrom(1024)
+                if data.startswith(b"DOWNLOAD"):
+                    threading.Thread(target=handle_download,args=(data, client_address),daemon=True).start()
+                else:
+                    print(f"this is not download request: {data.decode('utf-8')}")
+                    break
+            except socket.timeout:
+              print("time out, exiting......")
+              break
+            except Exception as e:
+                print(f"error when connect: {e}")
+    except Exception as e:
+        print("error when coonect {e} ")
+    finally:
+        server_socket.close()                
+       
+                    
+
