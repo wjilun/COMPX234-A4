@@ -72,5 +72,23 @@ class UDPclient:
                 print(f" error parsing the response: {e}")
                 close_request = f"FILE {filename} CLOSE"
                 self.send_request_with_retry(close_request, data_address)   
+        try:
+            with open(filename, 'wb') as f:
+                f.write(received_data)
+            print(f"{filename} finish download")
+            close_request = f"FILE {filename} CLOSE"
+            close_response = self.send_request_with_retry(close_request, data_address)
+            if close_response and close_response.startswith(f"FILE {filename} CLOSE_OK"):
+                print("close successfully")
+                if server_md5:
+                    client_md5 = self.calculate_md5(filename)
+                    if client_md5 == server_md5:
+                        print(f"{filename} MD5 check successfully: {client_md5}")
+                    else:
+                        print(f"{filename} MD5 check failed: client {client_md5} vs sever {server_md5}")
+            else:
+                print(f"close request error: {close_response if close_response else 'no respose'}")
+        except Exception as e:
+            print(f"error when download file: {e}")    
             
 
