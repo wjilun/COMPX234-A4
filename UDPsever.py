@@ -23,6 +23,13 @@ def handle_file(data_socket,filename,client_adress):
                     data_socket.sendto(response.encode('utf-8'), address)
                 except Exception as e:
                     print(f"error when get data information: {e}")
+            elif parts[2]=="CLOSE":
+                response = f"FILE {filename} CLOSE_OK"
+                data_socket.sendto(response.encode('utf-8'), address)
+                print(f"client_adress {client_adress} has closed the file {filename}")
+                print("")
+                data_socket.close()
+                return
             
 
 
