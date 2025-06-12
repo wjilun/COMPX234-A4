@@ -36,7 +36,14 @@ def handle_file(data_socket,filename,client_adress):
         data_socket.close()
         return        
 
+def handle_download(data,client_address,server_socket):
+    try:
+        request = data.decode('utf-8')
+        parts=request.split()
+        filename=parts[1]
+        if not os.path.exists(filename):
+            error_response = f"ERR {filename} NOT_FOUND"
+            server_socket.sendto(error_response.encode('utf-8'), client_address)
+            return
 
 
-
-    
