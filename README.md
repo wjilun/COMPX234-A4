@@ -9,4 +9,6 @@ homework requests:
 5.I use retry and test whether the length is equal to correct length for correctly download 1 file despite losses ,if losses ,file will be downloading again and again(I define retry is 5).
 
 suggestion:
-I restrict 15 seconds for sever ,if there is no requests form client, then it will exit , if you think the time is short ,you can change it.   
+1.I restrict 15 seconds for sever ,if there is no requests form client, then it will exit , if you think the time is short ,you can change it.
+2.Here I fixed the address and port mainly for the convenience of testing, but you can completely change it to the form of input() to make the connection more flexible.
+
